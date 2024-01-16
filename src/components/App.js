@@ -63,7 +63,12 @@ function App() {
   };
 
   const handleClearCart = () => {
-    setCart([]);
+    setCart((oldcart) => {
+      oldcart.map((olditem) => {
+        return olditem.count = 0;
+      })
+      return [];
+    });
     setTotalPrice(0.0);
   };
 
