@@ -1,0 +1,11 @@
+.floating-textbox {
+    position: fixed; /* Keeps the textbox fixed during scrolling */
+    top: 40px;       /* Distance from the top of the viewport */
+    right: 10px;     /* Distance from the right of the viewport */
+    background-color: white;
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Soft shadow for a floating effect */
+    border-radius: 5px; /* Rounded corners */
+    z-index: 1000;      /* Ensures it appears above other content */
+    font-size: 75%;
+  }
