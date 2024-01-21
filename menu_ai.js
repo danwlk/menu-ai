@@ -29,7 +29,6 @@ intent("show me the menu", (p) => {
 
 intent("Order by $(ORDER_BY name|price|category)", (p) => {
   const orderByField = p.ORDER_BY.value;
-  const menuItemsDuplicate = menuItems;
   let orderedMenuItems = menuItems;
 
   switch (orderByField) {
@@ -47,7 +46,6 @@ intent("Order by $(ORDER_BY name|price|category)", (p) => {
       orderedMenuItems = menuItems.sort((p1, p2) => p1.price - p2.price);
       break;
   }
-  menuItems = menuItemsDuplicate;
 
   p.play({ command: "getMenu", data: orderedMenuItems });
   p.play(`Ordering by ${p.ORDER_BY.value}`);
