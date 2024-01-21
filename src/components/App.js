@@ -3,17 +3,6 @@ import React, { useState, useEffect } from "react";
 import FloatingTextbox from "./FloatingTextbox/FloatingTextbox";
 
 function App() {
-  useEffect(() => {
-    alanBtn({
-      key: "5fd23dd7184cc6231434588bb3f113a12e956eca572e1d8b807a3e2338fdd0dc/stage",
-      onCommand: (commandData) => {
-        if (commandData.command === "getMenu") {
-          setMenuItems(commandData.data);
-        }
-      },
-    });
-  }, []);
-
   const [menuItems, setMenuItems] = useState([]);
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0.0);
@@ -28,9 +17,9 @@ function App() {
         return [...oldcart, item];
       });
     } else {
-      setCart([...cart]);
+      setCart(() => [...cart]);
     }
-    setTotalPrice(totalPrice + item.price);
+    setTotalPrice((oldPrice) => oldPrice + item.price);
   };
 
   const handleDelete = (item) => {
@@ -69,6 +58,22 @@ function App() {
     setTotalPrice(0.0);
   };
 
+  useEffect(() => {
+    alanBtn({
+      key: "5fd23dd7184cc6231434588bb3f113a12e956eca572e1d8b807a3e2338fdd0dc/stage",
+      onCommand: (commandData) => {
+        if (commandData.command === "getMenu") {
+          setMenuItems(commandData.data);
+        } else if (commandData.command === "addToCart") {
+          addToCart(
+            menuItems.find((item) => item.name === commandData.data.name)
+          );
+        }
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="App">
       <button
@@ -88,6 +93,7 @@ function App() {
         <ol>
           <li>Show me the menu</li>
           <li>Order by name/price/category</li>
+          <li>Add (product name)</li>
         </ol>
       </FloatingTextbox>
       <h1>Menu</h1>
