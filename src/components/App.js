@@ -17,7 +17,7 @@ function App() {
         if (commandData.command === "getMenu") {
           setMenuItems(commandData.data);
         } else if (commandData.command === "addToCart") {
-          addToCart(menuItems.find((item) => item === commandData.data));
+          addToCart(menuItems.find((item) => item.name.toLowerCase() === commandData.data.name.toLowerCase()));
         }
       },
     });
@@ -25,6 +25,7 @@ function App() {
   }, []);
 
   const addToCart = (item) => {
+    console.log(item);
     item.count++;
     if (item.count === 1) {
       setCart((oldcart) => {
