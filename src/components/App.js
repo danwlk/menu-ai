@@ -1,14 +1,20 @@
 import alanBtn from "@alan-ai/alan-sdk-web";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import FloatingTextbox from "./FloatingTextbox/FloatingTextbox";
 
 function App() {
   const [menuItems, setMenuItems] = useState([]);
+  const menuItemsRef = useRef([]);
   const [cart, setCart] = useState([]);
+  const cartRef = useRef([]);
   const [totalPrice, setTotalPrice] = useState(0.0);
   const showMenu = menuItems.length !== 0;
   const showClear = cart.length !== 0;
   const [isTextboxVisible, setTextboxVisibility] = useState(true);
+
+  useEffect(() => {
+    menuItemsRef.current = menuItems;
+  }, [menuItems]);
 
   useEffect(() => {
     alanBtn({
@@ -17,7 +23,11 @@ function App() {
         if (commandData.command === "getMenu") {
           setMenuItems(commandData.data);
         } else if (commandData.command === "addToCart") {
-          addToCart(menuItems.find((item) => item.name.toLowerCase() === commandData.data.name.toLowerCase()));
+          addToCart(
+            menuItemsRef.current.find(
+              (item) => item.name === commandData.data.name
+            )
+          );
         }
       },
     });
@@ -25,6 +35,7 @@ function App() {
   }, []);
 
   const addToCart = (item) => {
+    console.log("showing item")
     console.log(item);
     item.count++;
     if (item.count === 1) {
@@ -32,7 +43,7 @@ function App() {
         return [...oldcart, item];
       });
     } else {
-      setCart(() => [...cart]);
+      setCart((oldcart) => [...oldcart]);
     }
     setTotalPrice((oldPrice) => oldPrice + item.price);
   };
@@ -95,6 +106,7 @@ function App() {
           <li>Add (product name)</li>
         </ol>
       </FloatingTextbox>
+
       <h1>Menu</h1>
       {showMenu ? (
         <ol>
