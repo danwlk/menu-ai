@@ -10,6 +10,20 @@ function App() {
   const showClear = cart.length !== 0;
   const [isTextboxVisible, setTextboxVisibility] = useState(true);
 
+  useEffect(() => {
+    alanBtn({
+      key: "5fd23dd7184cc6231434588bb3f113a12e956eca572e1d8b807a3e2338fdd0dc/stage",
+      onCommand: (commandData) => {
+        if (commandData.command === "getMenu") {
+          setMenuItems(commandData.data);
+        } else if (commandData.command === "addToCart") {
+          addToCart(menuItems.find((item) => item === commandData.data));
+        }
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const addToCart = (item) => {
     item.count++;
     if (item.count === 1) {
@@ -57,22 +71,6 @@ function App() {
     });
     setTotalPrice(0.0);
   };
-
-  useEffect(() => {
-    alanBtn({
-      key: "5fd23dd7184cc6231434588bb3f113a12e956eca572e1d8b807a3e2338fdd0dc/stage",
-      onCommand: (commandData) => {
-        if (commandData.command === "getMenu") {
-          setMenuItems(commandData.data);
-        } else if (commandData.command === "addToCart") {
-          addToCart(
-            menuItems.find((item) => item.name === commandData.data.name)
-          );
-        }
-      },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="App">
