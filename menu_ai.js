@@ -48,6 +48,8 @@ intent("Order by $(ORDER_BY name|price|category)", (p) => {
   }
 
   p.play({ command: "getMenu", data: orderedMenuItems });
+  menuItems.sort((p1, p2) => p1.category.localeCompare(p2.category));
+    
   p.play(`Ordering by ${p.ORDER_BY.value}`);
 });
 
