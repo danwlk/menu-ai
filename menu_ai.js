@@ -1,4 +1,3 @@
-import App from "./src/components/App";
 
 const menuItems = [
   { name: "Angus Burger", price: 8.99, category: "burger", count: 0 },
@@ -83,12 +82,8 @@ intent(
         return menuItem.name.toLowerCase() === itemName.toLowerCase();
       });
 
-      if (!cart.find((cartItem) => cartItem.name === itemToDelete.name)) {
-        p.play("That item is not in the cart");
-      } else {
         p.play({ command: "deleteFromCart", data: itemToDelete });
         p.play(`Deleting ${p.ITEM.value} from the cart`);
-      }
     }
   }
 );
