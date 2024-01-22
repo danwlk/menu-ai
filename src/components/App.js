@@ -27,6 +27,12 @@ function App() {
               (item) => item.name === commandData.data.name
             )
           );
+        } else if (commandData.command === "deleteFromCart") {
+          handleDelete(
+            menuItemsRef.current.find(
+              (item) => item.name === commandData.data.name
+            )
+          );
         }
       },
     });
@@ -58,7 +64,7 @@ function App() {
       setTotalPrice(totalPrice - item.price);
     } else {
       item.count--;
-      setCart([...cart]);
+      setCart((cart) => [...cart]);
       setTotalPrice(totalPrice - item.price);
     }
   };
