@@ -7,7 +7,8 @@ VERSION or DATE: ver. 2024
 
 AUTHORS: Doyup Kim
 
-USER INSTRUCTIONS: 1. Download ALL FILES
+USER INSTRUCTIONS: 
+                   1. Download ALL FILES
 
                    2. Make a new folder in your desktop, put all the files into the new folder.
                    
