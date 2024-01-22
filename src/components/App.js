@@ -11,10 +11,12 @@ function App() {
   const showClear = cart.length !== 0;
   const [isTextboxVisible, setTextboxVisibility] = useState(true);
 
+  // keep menu items updated for voice commands
   useEffect(() => {
     menuItemsRef.current = menuItems;
   }, [menuItems]);
 
+  // alan ai voice commands
   useEffect(() => {
     alanBtn({
       key: "5fd23dd7184cc6231434588bb3f113a12e956eca572e1d8b807a3e2338fdd0dc/stage",
@@ -47,40 +49,44 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // adding to cart
   const addToCart = (item) => {
     item.count++;
     if (item.count === 1) {
       setCart((oldcart) => {
-        return [...oldcart, item];
+        return [...oldcart, item]; // append to cart
       });
     } else {
-      setCart((oldcart) => [...oldcart]);
+      setCart((oldcart) => [...oldcart]); // keeps the cart same but increments count by 1
     }
-    setTotalPrice((oldPrice) => oldPrice + item.price);
+    setTotalPrice((oldPrice) => oldPrice + item.price); // updates the total price
   };
 
   const handleDelete = (item) => {
+    // item is not in the cart
     if (item.count === 0) {
       alert("This item is not in the cart");
       return;
     }
 
+    // delete the item from the cart
     if (item.count === 1) {
       item.count = 0;
       setCart((oldcart) => {
-        return oldcart.filter((oldItem) => {
+        return oldcart.filter((oldItem) => { // remove item from cart
           return oldItem.name !== item.name;
         });
       });
-      setTotalPrice((oldPrice) => oldPrice - item.price);
+      setTotalPrice((oldPrice) => oldPrice - item.price); // updates the total price
     } else {
       item.count--;
-      setCart((cart) => [...cart]);
-      setTotalPrice((oldPrice) => oldPrice - item.price);
+      setCart((cart) => [...cart]); // keeps the cart same but decrements count by 1
+      setTotalPrice((oldPrice) => oldPrice - item.price); // updates the total price
     }
   };
 
   const handleDeleteAll = (item) => {
+    // item is not in the cart
     if (item.count === 0) {
       alert("This item is not in the cart");
       return;
@@ -90,21 +96,21 @@ function App() {
     item.count = 0;
 
     setCart((oldcart) => {
-      return oldcart.filter((olditem) => {
+      return oldcart.filter((olditem) => { // remove item from cart
         return olditem.name !== item.name;
       });
     });
-    setTotalPrice((oldPrice) => oldPrice - item.price * itemCount);
+    setTotalPrice((oldPrice) => oldPrice - item.price * itemCount); // updates the total price
   };
 
   const handleClearCart = () => {
     setCart((oldcart) => {
       oldcart.map((olditem) => {
-        return (olditem.count = 0);
+        return (olditem.count = 0); // sets every item's count to 0
       });
-      return [];
+      return []; // returns empty array to cart
     });
-    setTotalPrice(0.0);
+    setTotalPrice(0.0); // set price to 0
   };
 
   return (
