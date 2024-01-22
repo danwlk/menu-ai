@@ -24,7 +24,6 @@ const menuItems = [
 
 const menuItemsNames = menuItems.map((item) => item.name).join("|");
 
-
 intent("show me the menu", (p) => {
   p.play({ command: "getMenu", data: menuItems });
   p.play("Here is the menu");
@@ -56,7 +55,6 @@ intent("Order by $(ORDER_BY name|price|category)", (p) => {
   p.play(`Ordering by ${p.ORDER_BY.value}`);
 });
 
-
 intent(`Add $(ITEM ${menuItemsNames})`, "Add $(UNAVAILABLE_ITEM* .*)", (p) => {
   if (p.UNAVAILABLE_ITEM) {
     p.play("That item is unavailable");
@@ -70,7 +68,6 @@ intent(`Add $(ITEM ${menuItemsNames})`, "Add $(UNAVAILABLE_ITEM* .*)", (p) => {
     p.play(`Adding ${p.ITEM.value} to the cart`);
   }
 });
-
 
 intent(
   `Delete $(ITEM ${menuItemsNames})`,
@@ -90,7 +87,6 @@ intent(
   }
 );
 
-
 intent(
   `Delete all $(ITEM ${menuItemsNames})`,
   "Delete all $(UNAVAILABLE_ITEM* .*)",
@@ -109,20 +105,7 @@ intent(
   }
 );
 
-
 intent("Clear cart", (p) => {
-    p.play({ command: "clearCart"})
-    p.play("Cleared cart")
-})
-
-
-
-
-
-
-
-
-
-
-
-
+  p.play({ command: "clearCart" });
+  p.play("Cleared cart");
+});

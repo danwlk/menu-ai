@@ -39,6 +39,8 @@ function App() {
               (item) => item.name === commandData.data.name
             )
           );
+        } else if (commandData.command === "clearCart") {
+          handleClearCart();
         }
       },
     });
