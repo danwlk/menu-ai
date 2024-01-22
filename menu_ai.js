@@ -1,4 +1,3 @@
-
 const menuItems = [
   { name: "Angus Burger", price: 8.99, category: "burger", count: 0 },
   { name: "Tuna Steak Burger", price: 15.0, category: "burger", count: 0 },
@@ -82,8 +81,8 @@ intent(
         return menuItem.name.toLowerCase() === itemName.toLowerCase();
       });
 
-        p.play({ command: "deleteFromCart", data: itemToDelete });
-        p.play(`Deleting ${p.ITEM.value} from the cart`);
+      p.play({ command: "deleteFromCart", data: itemToDelete });
+      p.play(`Deleting ${p.ITEM.value} from the cart`);
     }
   }
 );
