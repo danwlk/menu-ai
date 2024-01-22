@@ -46,8 +46,6 @@ function App() {
   }, []);
 
   const addToCart = (item) => {
-    console.log("showing item");
-    console.log(item);
     item.count++;
     if (item.count === 1) {
       setCart((oldcart) => {
@@ -86,13 +84,15 @@ function App() {
       return;
     }
 
+    const itemCount = item.count;
+    item.count = 0;
+
     setCart((oldcart) => {
       return oldcart.filter((olditem) => {
         return olditem.name !== item.name;
       });
     });
-    setTotalPrice((oldPrice) => oldPrice - item.price * item.count);
-    item.count = 0;
+    setTotalPrice((oldPrice) => oldPrice - item.price * itemCount);
   };
 
   const handleClearCart = () => {
