@@ -110,8 +110,10 @@ intent(
 );
 
 
-
-
+intent("Clear cart", (p) => {
+    p.play({ command: "clearCart"})
+    p.play("Cleared cart")
+})
 
 
 
