@@ -55,7 +55,9 @@ intent("Order by $(ORDER_BY name|price|category)", (p) => {
 
 const menuItemsNames = menuItems.map((item) => item.name).join("|");
 
-intent(`Add $(ITEM ${menuItemsNames})`, "Add $(UNAVAILABLE_ITEM* .*)", (p) => {
+intent(`Add $(ITEM ${menuItemsNames})`,
+       "Add $(UNAVAILABLE_ITEM* .*)",
+       (p) => {
   if (p.UNAVAILABLE_ITEM) {
     p.play("That item is unavailable");
   } else {
@@ -68,3 +70,5 @@ intent(`Add $(ITEM ${menuItemsNames})`, "Add $(UNAVAILABLE_ITEM* .*)", (p) => {
     p.play(`Adding ${p.ITEM.value} to the cart`);
   }
 });
+
+
