@@ -72,3 +72,39 @@ intent(`Add $(ITEM ${menuItemsNames})`,
 });
 
 
+intent(`Delete $(ITEM ${menuItemsNames})`,
+       "Delete $(UNAVAILABLE_ITEM* .*)",
+       (p) => {
+    if (p.UNAVAILABLE_ITEM) {
+    p.play("That item is unavailable");
+  } else {
+    const itemName = p.ITEM.value;
+    const itemToDelete = menuItems.find((menuItem) => {
+      return menuItem.name.toLowerCase() === itemName.toLowerCase();
+    });
+
+    p.play({ command: "deleteFromCart", data: itemToDelete });
+    p.play(`Deleting ${p.ITEM.value} from the cart`);
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
