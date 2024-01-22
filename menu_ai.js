@@ -22,6 +22,9 @@ const menuItems = [
   { name: "Fettuccine Alfredo", price: 17.99, category: "pasta", count: 0 },
 ];
 
+const menuItemsNames = menuItems.map((item) => item.name).join("|");
+
+
 intent("show me the menu", (p) => {
   p.play({ command: "getMenu", data: menuItems });
   p.play("Here is the menu");
@@ -53,7 +56,6 @@ intent("Order by $(ORDER_BY name|price|category)", (p) => {
   p.play(`Ordering by ${p.ORDER_BY.value}`);
 });
 
-const menuItemsNames = menuItems.map((item) => item.name).join("|");
 
 intent(`Add $(ITEM ${menuItemsNames})`, "Add $(UNAVAILABLE_ITEM* .*)", (p) => {
   if (p.UNAVAILABLE_ITEM) {
@@ -68,6 +70,7 @@ intent(`Add $(ITEM ${menuItemsNames})`, "Add $(UNAVAILABLE_ITEM* .*)", (p) => {
     p.play(`Adding ${p.ITEM.value} to the cart`);
   }
 });
+
 
 intent(
   `Delete $(ITEM ${menuItemsNames})`,
@@ -86,3 +89,38 @@ intent(
     }
   }
 );
+
+
+intent(
+  `Delete all $(ITEM ${menuItemsNames})`,
+  "Delete all $(UNAVAILABLE_ITEM* .*)",
+  (p) => {
+    if (p.UNAVAILABLE_ITEM) {
+      p.play("That item is unavailable");
+    } else {
+      const itemName = p.ITEM.value;
+      const itemToDelete = menuItems.find((menuItem) => {
+        return menuItem.name.toLowerCase() === itemName.toLowerCase();
+      });
+
+      p.play({ command: "deleteAllFromCart", data: itemToDelete });
+      p.play(`Deleting all ${p.ITEM.value} from the cart`);
+    }
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
