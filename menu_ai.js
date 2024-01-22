@@ -1,3 +1,5 @@
+import App from "./src/components/App";
+
 const menuItems = [
   { name: "Angus Burger", price: 8.99, category: "burger", count: 0 },
   { name: "Tuna Steak Burger", price: 15.0, category: "burger", count: 0 },
@@ -49,15 +51,13 @@ intent("Order by $(ORDER_BY name|price|category)", (p) => {
 
   p.play({ command: "getMenu", data: orderedMenuItems });
   menuItems.sort((p1, p2) => p1.category.localeCompare(p2.category));
-    
+
   p.play(`Ordering by ${p.ORDER_BY.value}`);
 });
 
 const menuItemsNames = menuItems.map((item) => item.name).join("|");
 
-intent(`Add $(ITEM ${menuItemsNames})`,
-       "Add $(UNAVAILABLE_ITEM* .*)",
-       (p) => {
+intent(`Add $(ITEM ${menuItemsNames})`, "Add $(UNAVAILABLE_ITEM* .*)", (p) => {
   if (p.UNAVAILABLE_ITEM) {
     p.play("That item is unavailable");
   } else {
@@ -71,40 +71,24 @@ intent(`Add $(ITEM ${menuItemsNames})`,
   }
 });
 
-
-intent(`Delete $(ITEM ${menuItemsNames})`,
-       "Delete $(UNAVAILABLE_ITEM* .*)",
-       (p) => {
+intent(
+  `Delete $(ITEM ${menuItemsNames})`,
+  "Delete $(UNAVAILABLE_ITEM* .*)",
+  (p) => {
     if (p.UNAVAILABLE_ITEM) {
-    p.play("That item is unavailable");
-  } else {
-    const itemName = p.ITEM.value;
-    const itemToDelete = menuItems.find((menuItem) => {
-      return menuItem.name.toLowerCase() === itemName.toLowerCase();
-    });
+      p.play("That item is unavailable");
+    } else {
+      const itemName = p.ITEM.value;
+      const itemToDelete = menuItems.find((menuItem) => {
+        return menuItem.name.toLowerCase() === itemName.toLowerCase();
+      });
 
-    p.play({ command: "deleteFromCart", data: itemToDelete });
-    p.play(`Deleting ${p.ITEM.value} from the cart`);
+      if (!cart.find((cartItem) => cartItem.name === itemToDelete.name)) {
+        p.play("That item is not in the cart");
+      } else {
+        p.play({ command: "deleteFromCart", data: itemToDelete });
+        p.play(`Deleting ${p.ITEM.value} from the cart`);
+      }
+    }
   }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+);
