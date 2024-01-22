@@ -6,7 +6,6 @@ function App() {
   const [menuItems, setMenuItems] = useState([]);
   const menuItemsRef = useRef([]);
   const [cart, setCart] = useState([]);
-  const cartRef = useRef([]);
   const [totalPrice, setTotalPrice] = useState(0.0);
   const showMenu = menuItems.length !== 0;
   const showClear = cart.length !== 0;
@@ -35,7 +34,7 @@ function App() {
   }, []);
 
   const addToCart = (item) => {
-    console.log("showing item")
+    console.log("showing item");
     console.log(item);
     item.count++;
     if (item.count === 1) {
