@@ -129,6 +129,7 @@ function App() {
           <li>Add (product name)</li>
           <li>Delete (product name)</li>
           <li>Delete all (product name)</li>
+          <li>Clear cart</li>
         </ul>
       </FloatingTextbox>
 
