@@ -33,6 +33,12 @@ function App() {
               (item) => item.name === commandData.data.name
             )
           );
+        } else if (commandData.command === "deleteAllFromCart") {
+          handleDeleteAll(
+            menuItemsRef.current.find(
+              (item) => item.name === commandData.data.name
+            )
+          );
         }
       },
     });
@@ -54,6 +60,11 @@ function App() {
   };
 
   const handleDelete = (item) => {
+    if (item.count === 0) {
+      alert("This item is not in the cart");
+      return;
+    }
+
     if (item.count === 1) {
       item.count = 0;
       setCart((oldcart) => {
@@ -61,21 +72,26 @@ function App() {
           return oldItem.name !== item.name;
         });
       });
-      setTotalPrice(totalPrice - item.price);
+      setTotalPrice((oldPrice) => oldPrice - item.price);
     } else {
       item.count--;
       setCart((cart) => [...cart]);
-      setTotalPrice(totalPrice - item.price);
+      setTotalPrice((oldPrice) => oldPrice - item.price);
     }
   };
 
   const handleDeleteAll = (item) => {
+    if (item.count === 0) {
+      alert("This item is not in the cart");
+      return;
+    }
+
     setCart((oldcart) => {
       return oldcart.filter((olditem) => {
         return olditem.name !== item.name;
       });
     });
-    setTotalPrice(totalPrice - item.price * item.count);
+    setTotalPrice((oldPrice) => oldPrice - item.price * item.count);
     item.count = 0;
   };
 
@@ -105,11 +121,13 @@ function App() {
       <FloatingTextbox isVisible={isTextboxVisible}>
         <h4>Commands:</h4>
         <p>Click the microphone button and speak the following commands</p>
-        <ol>
+        <ul>
           <li>Show me the menu</li>
           <li>Order by name/price/category</li>
           <li>Add (product name)</li>
-        </ol>
+          <li>Delete (product name)</li>
+          <li>Delete all (product name)</li>
+        </ul>
       </FloatingTextbox>
 
       <h1>Menu</h1>
