@@ -55,7 +55,9 @@ intent("Order by $(ORDER_BY name|price|category)", (p) => {
 
 const menuItemsNames = menuItems.map((item) => item.name).join("|");
 
-intent(`Add $(ITEM ${menuItemsNames})`, "Add $(UNAVAILABLE_ITEM* .*)", (p) => {
+intent(`Add $(ITEM ${menuItemsNames})`,
+       "Add $(UNAVAILABLE_ITEM* .*)",
+       (p) => {
   if (p.UNAVAILABLE_ITEM) {
     p.play("That item is unavailable");
   } else {
@@ -68,3 +70,41 @@ intent(`Add $(ITEM ${menuItemsNames})`, "Add $(UNAVAILABLE_ITEM* .*)", (p) => {
     p.play(`Adding ${p.ITEM.value} to the cart`);
   }
 });
+
+
+intent(`Delete $(ITEM ${menuItemsNames})`,
+       "Delete $(UNAVAILABLE_ITEM* .*)",
+       (p) => {
+    if (p.UNAVAILABLE_ITEM) {
+    p.play("That item is unavailable");
+  } else {
+    const itemName = p.ITEM.value;
+    const itemToDelete = menuItems.find((menuItem) => {
+      return menuItem.name.toLowerCase() === itemName.toLowerCase();
+    });
+
+    p.play({ command: "deleteFromCart", data: itemToDelete });
+    p.play(`Deleting ${p.ITEM.value} from the cart`);
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
